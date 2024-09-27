@@ -10,8 +10,7 @@ using UnityEngine;
 public class _Controller_GodObject : MonoBehaviour
 {
     public GameObject objectPrefab; // Префаб об'єкта для інстанціювання
-    public int gridWidth = 10;       // Ширина сітки
-    public int gridHeight = 10;      // Висота сітки
+    public int gridSize = 10;       // Ширина сітки
     private GameObject firstCell;   // Посилання на першу клітинку
 
     void Start()
@@ -31,24 +30,24 @@ public class _Controller_GodObject : MonoBehaviour
         }
 
         // Генерація сітки
-        GenerateGrid(gridHeight);
+        GenerateGrid(gridSize);
     }
 
-    void GenerateGrid(int gridWidth)
+    void GenerateGrid(int gridSize)
     {
-        for (int x = 0; x < gridWidth; x++)
+        Vector3 gridOffset = new Vector3(-5, -5, 0); // Зсув сітки
+        Vector3 cellScale = new Vector3(2.4f, 2.4f, 1);
+        
+        for (int x = 0; x < gridSize; x++)
         {
-            for (int y = 0; y < gridWidth; y++)
+            for (int y = 0; y < gridSize; y++)
             {
-                
-
-                // Correct position calculation: multiplying by cellSize, not gridWidth
-                Vector3 position = new Vector3(x, y, 0);
+                Vector3 position = new Vector3(x, y, 0) + gridOffset; // Додаємо зсув
 
                 // Instantiate the new cell
                 GameObject newCell = Instantiate(objectPrefab, position, Quaternion.identity);
                 newCell.name = $"Cell_{x}_{y}";
-
+                newCell.transform.localScale = cellScale;
                 if ((x + y) % 2 != 0)
                 {
                     newCell.GetComponent<SpriteRenderer>().color = Color.gray;
@@ -57,6 +56,9 @@ public class _Controller_GodObject : MonoBehaviour
         }
     }
 
+
+    
+    
 }
 
 
